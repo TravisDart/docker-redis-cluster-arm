@@ -1,7 +1,11 @@
 # Build based on redis:7.2.5 from "2024-05-22T23:17:59Z"
-FROM redis@sha256:e422889e156ebea83856b6ff973bfe0c86bce867d80def228044eeecf925592b
+# FROM redis@sha256:e422889e156ebea83856b6ff973bfe0c86bce867d80def228044eeecf925592b
 
-LABEL maintainer="Johan Andersson <Grokzen@gmail.com>"
+# Build based on arm64 redis:7.2.5:
+# https://hub.docker.com/layers/library/redis/7.2.5/images/sha256-48f4dde7f0231a8138727a73b32ecf65ac3c2138fdf3c654c5495eb368214a5b
+FROM redis@sha256:3aaec283e6e593bde528077d60280ac1589887067a39273348860837c9346d7e
+
+# LABEL maintainer="Johan Andersson <Grokzen@gmail.com>"
 
 # Some Environment Variables
 ENV HOME /root
@@ -9,6 +13,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install system dependencies
 RUN apt-get update -qq && \
+    apt install -y --reinstall ca-certificates && \
+    update-ca-certificates && \
     apt-get install --no-install-recommends -yqq \
       net-tools supervisor ruby rubygems locales gettext-base wget gcc make g++ build-essential libc6-dev tcl && \
     apt-get clean -yqq

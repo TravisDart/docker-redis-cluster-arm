@@ -16,10 +16,11 @@ RUN apt-get update -qq && \
     apt install -y --reinstall ca-certificates && \
     update-ca-certificates && \
     apt-get install --no-install-recommends -yqq \
-      net-tools supervisor ruby rubygems locales gettext-base wget gcc make g++ build-essential libc6-dev tcl && \
+      net-tools supervisor ruby rubygems locales gettext-base wget gcc make g++ build-essential libc6-dev tcl pkg-config && \
     apt-get clean -yqq
 
 # # Ensure UTF-8 lang and locale
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN locale-gen en_US.UTF-8
 ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
